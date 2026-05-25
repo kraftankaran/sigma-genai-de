@@ -7,7 +7,7 @@ WITH raw_transactions AS (
         customer_id,
         transaction_date,
         payment_method
-    FROM {{ source('sigma_analytics', 'fact_transactions') }}
+    FROM SIGMA_DE.PUBLIC.fact_transactions
     WHERE merchant_id NOT LIKE 'TEST_%'
 ),
 
