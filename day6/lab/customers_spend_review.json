@@ -1,0 +1,35 @@
+{
+  "file": "queries/customers_spend.sql",
+  "reviewed_at": "2026-05-25T16:10:10.645990",
+  "issues_found": 3,
+  "review": {
+    "issues": [
+      {
+        "severity": "Critical",
+        "category": "Correctness",
+        "title": "Incorrect Revenue Calculation",
+        "line": "SUM(t.amount) as lifetime_value",
+        "problem": "The query calculates lifetime value without considering the transaction status, which should only include completed transactions.",
+        "fix": "SUM(CASE WHEN t.status = 'COMPLETED' THEN t.amount ELSE 0 END) as lifetime_value"
+      },
+      {
+        "severity": "Medium",
+        "category": "Correctness",
+        "title": "Missing Group By Columns",
+        "line": "GROUP BY c.customer_name, c.email",
+        "problem": "The query should also include c.tier in the GROUP BY clause to avoid aggregation errors.",
+        "fix": "GROUP BY c.customer_name, c.email, c.tier"
+      },
+      {
+        "severity": "Medium",
+        "category": "Readability",
+        "title": "Lack of Comments",
+        "line": "Entire Query",
+        "problem": "The query lacks comments explaining the logic and purpose, making it harder to understand.",
+        "fix": "Add comments explaining the purpose of each clause and aggregation."
+      }
+    ],
+    "corrected_sql": "SELECT c.customer_name, c.email, c.tier,\n       SUM(CASE WHEN t.status = 'COMPLETED' THEN t.amount ELSE 0 END) as lifetime_value,\n       COUNT(t.transaction_id) as total_orders\nFROM dim_customer c\nLEFT JOIN fact_transactions t ON c.customer_id = t.customer_id\nWHERE t.status = 'COMPLETED'\nGROUP BY c.customer_name, c.email, c.tier\nHAVING SUM(CASE WHEN t.status = 'COMPLETED' THEN t.amount ELSE 0 END) > 1000\nORDER BY lifetime_value DESC;",
+    "summary": "The query had issues with revenue calculation and missing GROUP BY columns. Additionally, it lacked comments for readability."
+  }
+}
