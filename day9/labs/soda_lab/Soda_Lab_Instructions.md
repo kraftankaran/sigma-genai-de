@@ -20,7 +20,7 @@ It creates two tables:
 
 Run the setup script:
 ```bash
-python setup_soda_data.py
+python3 setup_soda_data.py
 ```
 *You should see a message saying the database is ready.*
 
@@ -68,7 +68,7 @@ To verify your work and generate the success file for the grading tracker app:
 
 1. Run the verification script:
    ```bash
-   python verify_soda.py
+   python3 verify_soda.py
    ```
 2. If successful, this script checks that your checks are targeting `day2_orders` and have successfully caught the 4 data quality failures. It will output `../output/soda_lab_success.json`.
 
