@@ -2,21 +2,29 @@
 
 ### Pipeline Status
 **HEALTHY**  
-The pipeline is currently healthy as there are no significant issues with data quality or drift.
+The pipeline is currently healthy as there are no columns with nulls, and the drift share is within acceptable limits.
 
 ### 5 Key Findings
-- **Silver Layer Quality**: The total number of rows is 14, which is a small sample size but currently no columns have null values. This is OK for now but should be monitored.
-- **Transaction Status**: Out of 14 transactions, 11 were completed, 2 failed, and 1 is pending. The high number of failed transactions (2) is concerning and needs attention.
-- **Amount Range**: The transaction amounts range from 65.0 to 3400.0, which is within expected limits. The mean amount of 1002.86 is also reasonable.
-- **Bronze → Silver Drift**: No dataset drift was detected, and the drift share is 0.5, which is acceptable. This indicates data consistency.
-- **Gold Layer Active Merchants**: There are 8 active merchants, generating a total revenue of 13161.0. The average failure rate is 18.75%, with Zomato having the highest failure rate at 100.0%.
+- **Total rows in Silver Layer:** 14  
+  This is a low number of rows, which might indicate a data issue or a recent pipeline run.
+- **Transaction status breakdown:**  
+  - COMPLETED: 11  
+  - FAILED: 2  
+  - PENDING: 1  
+  The majority of transactions are completed, but there are a couple of failed transactions which need attention.
+- **Amount range in Silver Layer:** 65.0 to 3400.0  
+  This wide range of transaction amounts is normal and expected in financial data.
+- **Mean transaction amount in Silver Layer:** 1002.86  
+  This is a significant amount, reflecting the nature of the transactions processed.
+- **Active merchants in Gold Layer:** 8  
+  The number of active merchants is stable, which is a positive sign for the business.
 
 ### Alerts to Watch
-- Any increase in the number of failed transactions in the Silver layer.
-- A significant change in the amount range or mean in the Silver layer.
-- Any new columns with null values in the Silver layer.
+- **Any increase in the number of FAILED transactions in the Silver Layer.**
+- **A significant change in the mean transaction amount in the Silver Layer.**
+- **Any new columns showing drift in the Bronze → Silver transformation.**
 
 ### Recommended Actions
-- Investigate the cause of the 2 failed transactions in the Silver layer.
-- Monitor the performance of Zomato in the Gold layer, as it has a 100.0% failure rate.
-- Review the pipeline to ensure it can handle larger datasets as the sample size is currently small.
+- **Investigate the cause of the 2 FAILED transactions in the Silver Layer.**
+- **Monitor the transaction statuses throughout the day to ensure no further failures occur.**
+- **Review the data quality and completeness of the incoming data to ensure it meets the pipeline's requirements.**

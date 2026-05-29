@@ -33,8 +33,8 @@
     "discount_amount": "float"
   },
   "new_columns_detected": [
-    "payment_gateway",
-    "discount_amount"
+    "discount_amount",
+    "payment_gateway"
   ],
   "removed_columns_detected": [],
   "type_changes_detected": {},
@@ -55,6 +55,6 @@
   },
   "model_used": "amazon.nova-lite-v1:0",
   "tokens_in": 848,
-  "tokens_out": 1552,
-  "generated_at": "2026-05-26T10:28:06.009786+00:00"
+  "tokens_out": 1240,
+  "generated_at": "2026-05-26T10:35:17.618962+00:00"
 }

@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python import PythonOperator
+from datetime import datetime, timedelta
 import logging
+import json
 
 default_args = {
     'owner': 'data-engineering',
@@ -11,40 +12,36 @@ default_args = {
 }
 
 def on_failure_callback(context):
+    """Logs failure details."""
     dag_id = context['dag'].dag_id
     task_id = context['task_instance'].task_id
     execution_date = context['execution_date']
     error_message = context['exception']
-    logging.error(f"Dag: {dag_id}, Task: {task_id}, Execution Date: {execution_date}, Error: {error_message}")
+    logging.error(f"DAG: {dag_id}, Task: {task_id}, Execution Date: {execution_date}, Error: {error_message}")
 
 def sla_miss_callback(context):
+    """Sends alert for SLA miss."""
     dag_id = context['dag'].dag_id
     execution_date = context['execution_date']
-    logging.error(f"Dag: {dag_id}, Execution Date: {execution_date}, SLA Miss")
-
-def log_task_status(context):
-    task_instance = context['task_instance']
-    logging.info(f"Task {task_instance.task_id} started")
-    yield
-    logging.info(f"Task {task_instance.task_id} ended")
+    logging.warning(f"DAG: {dag_id}, Execution Date: {execution_date}, SLA Miss")
 
 def extract_bronze(**context):
-    logging.info("Starting Bronze layer extraction")
-    # Code to read CSVs and write to Bronze Parquet
-    logging.info("Bronze layer extraction complete")
-    raise Exception("Simulated failure")  # Remove for actual use
+    """Ingest raw CSVs to Bronze Parquet."""
+    logging.info("Starting extract_bronze task")
+    # Add your code here
+    logging.info("Ending extract_bronze task")
 
 def transform_silver(**context):
-    logging.info("Starting Silver layer transformation")
-    # Code to clean, enrich, deduplicate and write to Silver Parquet
-    logging.info("Silver layer transformation complete")
-    raise Exception("Simulated failure")  # Remove for actual use
+    """Clean, enrich, deduplicate to Silver."""
+    logging.info("Starting transform_silver task")
+    # Add your code here
+    logging.info("Ending transform_silver task")
 
 def build_gold(**context):
-    logging.info("Starting Gold layer build")
-    # Code to generate Gold aggregation tables
-    logging.info("Gold layer build complete")
-    raise Exception("Simulated failure")  # Remove for actual use
+    """Generate the 3 Gold aggregation tables."""
+    logging.info("Starting build_gold task")
+    # Add your code here
+    logging.info("Ending build_gold task")
 
 with DAG(
     dag_id='sigma_transaction_pipeline',
@@ -61,21 +58,18 @@ with DAG(
     extract_bronze_task = PythonOperator(
         task_id='extract_bronze',
         python_callable=extract_bronze,
-        provide_context=True,
         on_failure_callback=on_failure_callback
     )
 
     transform_silver_task = PythonOperator(
         task_id='transform_silver',
         python_callable=transform_silver,
-        provide_context=True,
         on_failure_callback=on_failure_callback
     )
 
     build_gold_task = PythonOperator(
         task_id='build_gold',
         python_callable=build_gold,
-        provide_context=True,
         on_failure_callback=on_failure_callback
     )
 

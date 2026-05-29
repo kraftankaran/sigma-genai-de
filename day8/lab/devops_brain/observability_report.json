@@ -1,12 +1,12 @@
 {
   "sprint": "observability",
-  "generated_at": "2026-05-27T18:04:23.743648",
+  "generated_at": "2026-05-27T18:01:34.054228",
   "evidently_mode": "full",
   "model_used": "amazon.nova-lite-v1:0",
   "token_usage": {
     "morning_report": {
       "input": 401,
-      "output": 379
+      "output": 361
     }
   },
   "silver_quality": {
@@ -57,5 +57,5 @@
     "devops_brain/observability/morning_report.md",
     "devops_brain/observability_report.json"
   ],
-  "student_judgment": "Zomato having 100% failure rate \u2014 because it directly impacts revenue and indicates a systemic issue with a merchant integration."
+  "student_judgment": "Any increase in the number of FAILED transactions in the Silver Layer.**"
 }
