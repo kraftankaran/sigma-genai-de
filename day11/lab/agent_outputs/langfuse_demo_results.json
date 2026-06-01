@@ -1,0 +1,63 @@
+{
+  "run_id": "183643",
+  "results": [
+    {
+      "id": "TXN100441",
+      "merchant": "QuickMart",
+      "amount": 4521.5,
+      "decision": "PASS",
+      "expected": "PASS",
+      "correct": true,
+      "reason": "All fields are valid and the amount is reasonable for a retail transaction.",
+      "latency_ms": 1277,
+      "tokens": 289
+    },
+    {
+      "id": "TXN100467",
+      "merchant": "FuelPlus",
+      "amount": -892.0,
+      "decision": "QUARANTINE",
+      "expected": "QUARANTINE",
+      "correct": true,
+      "reason": "Negative amount and unknown currency",
+      "latency_ms": 642,
+      "tokens": 283
+    },
+    {
+      "id": "TXN100489",
+      "merchant": "Apollo Hospital",
+      "amount": 980000.0,
+      "decision": "PASS",
+      "expected": "PASS",
+      "correct": true,
+      "reason": "All fields are valid, the amount is reasonable for the merchant type, and there is a business context provided in the notes.",
+      "latency_ms": 787,
+      "tokens": 304
+    },
+    {
+      "id": "TXN100512",
+      "merchant": "CloudStore",
+      "amount": 15230.0,
+      "decision": "QUARANTINE",
+      "expected": "QUARANTINE",
+      "correct": true,
+      "reason": "Unknown currency code",
+      "latency_ms": 603,
+      "tokens": 282
+    },
+    {
+      "id": "TXN100534",
+      "merchant": "CafeBlend",
+      "amount": 340.0,
+      "decision": "QUARANTINE",
+      "expected": "QUARANTINE",
+      "correct": true,
+      "reason": "The transaction date is strictly after today's date.",
+      "latency_ms": 713,
+      "tokens": 292
+    }
+  ],
+  "correct": 5,
+  "total": 5,
+  "student_judgment": "I would add the transaction notes and a dedicated 'merchant_category' field (like Healthcare/Hospital) to the prompt so the agent recognizes large corporate invoices as legitimate business context."
+}
